@@ -130,6 +130,7 @@ public class ARGUIController : MonoBehaviour, ITangoLifecycle, ITangoDepth
         m_tangoServiceVersion = TangoApplication.GetTangoServiceVersion();
 
         m_tangoApplication.Register(this);
+		Debug.Log ("Start ARGUI\n");
     }
 
     /// <summary>
