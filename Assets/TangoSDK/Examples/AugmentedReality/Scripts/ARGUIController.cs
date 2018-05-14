@@ -543,7 +543,7 @@ public class ARGUIController : MonoBehaviour, ITangoLifecycle, ITangoDepth
         }
 
         // Ensure the location is always facing the camera.  This is like a LookRotation, but for the Y axis.
-		planeCenter.y += 0.02f;
+		planeCenter.y += 0.1f;
         Vector3 up = plane.normal;
         Vector3 forward;
         if (Vector3.Angle(plane.normal, cam.transform.forward) < 175)

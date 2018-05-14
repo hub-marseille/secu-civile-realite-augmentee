@@ -4,42 +4,70 @@ using UnityEngine;
 
 using TechTweaking.Bluetooth;
 
-public class ArduinoCommunicationBT : MonoBehaviour {
+public class ArduinoCommunicationBT : MonoBehaviour 
+{
 	
 	private BluetoothDevice device;
 	public string bluetoothName = "HC-05";
+	private float lastUpdate = 0;
 
 	// Use this for initialization
-	void Awake () {
-		Debug.Log ("BT start\n");
-		BluetoothAdapter.enableBluetooth ();//Force Enabling Bluetooth
-		device = new BluetoothDevice ();
-		device.Name = bluetoothName;
+	void Awake () 
+	{
+		Debug.Log("BT awake\n");
 	}
 
 	void Start ()
 	{
+		Debug.Log("BT start\n");
+		BluetoothAdapter.enableBluetooth();//Force Enabling Bluetooth
+		device = new BluetoothDevice();
+		device.Name = "HC-05";//bluetoothName;
 		device.connect();
-		if (device.IsConnected)
-			Debug.Log ("Ok BT\n");
+		if (device.IsConnected) 
+			Debug.Log("Ok BT\n");
 		else
-			Debug.Log ("KO BT\n");
+			Debug.Log("KO BT\n");
 	}
 
-	private void sendHello() {
-		if (device != null) {
-			/*
-			 * Send and Read works only with bytes. You need to convert everything to bytes.
-			 * Different devices with different encoding is the reason for this. You should know what encoding you're using.
-			 * In the method call below I'm using the ASCII encoding to send "Hello" + a new line.
-			 */
-			device.send (System.Text.Encoding.ASCII.GetBytes ("Hello\n"));
+	private double getHotDistance()
+	{
+		GameObject[] gos;
+		gos = GameObject.FindGameObjectsWithTag("Hot");
+		double distance = Mathf.Infinity;
+		Vector3 position = transform.position;
+		if (GameObject.FindGameObjectsWithTag ("MainCamera").Length > 0)
+			position = GameObject.FindGameObjectsWithTag ("MainCamera") [0].transform.position;
+		foreach (GameObject go in gos)
+		{
+			Vector3 diff = go.transform.position - position;
+			float curDistance = diff.sqrMagnitude;
+			if (curDistance < distance)
+				distance = curDistance;
+		}
+		return distance;
+	}
+
+	private void sendTemperature() 
+	{
+		double	temperature = 0;
+		double distance = Mathf.Infinity;
+
+		distance = getHotDistance();
+		if (distance < .5)
+			distance = .5;
+		temperature = 20 + (30 / distance);
+		if (device != null)
+			device.send (System.Text.Encoding.ASCII.GetBytes (temperature.ToString ("0.0") + "\n"));
+	}
+
+	void Update()
+	{
+		if (Time.time > lastUpdate + 0.5f) 
+		{
+			sendTemperature ();
+			lastUpdate = Time.time;
 		}
 	}
-
-
-	void Update() {
-		Debug.Log ("Update BT");
-		sendHello ();
-	}
 }
+
