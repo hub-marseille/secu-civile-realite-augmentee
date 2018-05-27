@@ -522,6 +522,7 @@ public class ARGUIController : MonoBehaviour, ITangoLifecycle, ITangoDepth
     /// <param name="touchPosition">Touch position to find a plane at.</param>
     private IEnumerator _WaitForDepthAndFindPlane(Vector2 touchPosition)
     {
+		Debug.Log ("position: " + touchPosition);
         m_findPlaneWaitingForDepth = true;
 
         // Turn on the camera and wait for a single depth update.
