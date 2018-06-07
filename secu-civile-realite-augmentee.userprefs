@@ -3,9 +3,13 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\OperatorAppCom.cs">
     <Files>
       <File FileName="Assets\Plugins\Android\AndroidManifest.xml" Line="1" Column="1" />
-      <File FileName="Assets\BT_Library\Demos\Basic Demo\BasicDemo.cs" Line="89" Column="1" />
+      <File FileName="Assets\BT_Library\Demos\Basic Demo\BasicDemo.cs" Line="1" Column="1" />
       <File FileName="Assets\TangoSDK\Examples\AugmentedReality\Scripts\ARGUIController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\OperatorAppCom.cs" Line="38" Column="4" />
+      <File FileName="Assets\Scripts\OperatorAppCom.cs" Line="198" Column="7" />
+      <File FileName="Assets\Scripts\ArduinoCommunicationBT.cs" Line="1" Column="1" />
+      <File FileName="..\secu-civile-manager\Assets\BT_Library\Demos\Android2Android\ServerClient.cs" Line="1" Column="1" />
+      <File FileName="Assets\TangoPrefabs\Scripts\TangoARScreen.cs" Line="1" Column="1" />
+      <File FileName="Assets\TangoPrefabs\Scripts\TangoPointCloud.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

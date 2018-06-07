@@ -381,6 +381,7 @@ public class TangoPointCloud : MonoBehaviour, ITangoPointCloud
         return returnValue;
     }
 
+
     /// <summary>
     /// Given a screen coordinate, finds a plane that most closely fits the
     /// depth values in that area.

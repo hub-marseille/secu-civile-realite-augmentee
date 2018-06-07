@@ -66,9 +66,8 @@ public class OperatorAppCom : MonoBehaviour, ITangoLifecycle, ITangoDepth
 		*/
 	}
 
-	private IEnumerator PlaceObject()
+	private IEnumerator PlaceObject(Vector3 position)
 	{
-		Debug.Log ("Placing objet");
 		findPlaneWaitingForDepth = true;
 
 		// Turn on the camera and wait for a single depth update.
@@ -82,7 +81,7 @@ public class OperatorAppCom : MonoBehaviour, ITangoLifecycle, ITangoDepth
 		Camera cam = Camera.main;
 		Vector3 planeCenter;
 		Plane plane;
-		if (!pointCloud.FindPlane(cam, new Vector2(1920, 700), out planeCenter, out plane))
+		if (!pointCloud.FindPlane(cam, cam.WorldToScreenPoint(position), out planeCenter, out plane))
 		{
 			yield break;
 		}
@@ -161,43 +160,11 @@ public class OperatorAppCom : MonoBehaviour, ITangoLifecycle, ITangoDepth
 			if (msg != null ) {
 				content += System.Text.ASCIIEncoding.ASCII.GetString (msg);
 				Debug.Log ("msg : " + content);
-				if (content.Contains("a")) {
-					Debug.Log ("Placing object");
-					findPlaneWaitingForDepth = true;
-
-					// Turn on the camera and wait for a single depth update.
-					tangoApplication.SetDepthCameraRate(TangoEnums.TangoDepthCameraRate.MAXIMUM);
-					while (findPlaneWaitingForDepth)
-					{
-						yield return null;
-					}
-					tangoApplication.SetDepthCameraRate(TangoEnums.TangoDepthCameraRate.DISABLED);
-					// Find the plane.
-					Camera cam = Camera.main;
-					Vector3 planeCenter;
-					Plane plane;
-					if (!pointCloud.FindPlane(cam, new Vector2(1920, 700), out planeCenter, out plane))
-					{
-						yield break;
-					}
-
-					// Ensure the location is always facing the camera.  This is like a LookRotation, but for the Y axis.
-					planeCenter.y += 0.1f;
-					Vector3 up = plane.normal;
-					Vector3 forward;
-					if (Vector3.Angle(plane.normal, cam.transform.forward) < 175)
-					{
-						Vector3 right = Vector3.Cross(up, cam.transform.forward).normalized;
-						forward = Vector3.Cross(right, up).normalized;
-					}
-					else
-					{
-						// Normal is nearly parallel to camera look direction, the cross product would have too much
-						// floating point error in it.
-						forward = Vector3.Cross(up, cam.transform.right);
-					}
-					Debug.Log("objet ok: " + planeCenter);
-					Instantiate(toPlace, planeCenter, Quaternion.LookRotation(forward, up));
+				if (content.StartsWith("a") && content.EndsWith("\n")) 
+				{
+					content = content.Substring (2);
+					Vector3 position = new Vector3(float.Parse(content.Split(" ".ToCharArray(), 1)[0]), float.Parse(content.Split(" ".ToCharArray(), 2)[1]));
+					yield return StartCoroutine (PlaceObject(position));
 					content = "";
 				}
 			}

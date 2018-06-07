@@ -179,12 +179,13 @@ public class ARGUIController : MonoBehaviour, ITangoLifecycle, ITangoDepth
                                             UI_BUTTON_SIZE_X,
                                             UI_BUTTON_SIZE_Y);
         string isOn = m_arCameraPostProcess.enabled ? "Off" : "On";
+		/*
         if (GUI.Button(distortionButtonRec,
                        UI_FONT_SIZE + "Turn Distortion " + isOn + "</size>"))
         {
             m_arCameraPostProcess.enabled = !m_arCameraPostProcess.enabled;
         }
-
+		*/
         if (m_showDebug && m_tangoApplication.HasRequiredPermissions)
         {
             Color oldColor = GUI.color;
@@ -257,7 +258,7 @@ public class ARGUIController : MonoBehaviour, ITangoLifecycle, ITangoDepth
         {
             m_selectedRect = new Rect();
         }
-
+		/*
         if (GameObject.FindObjectOfType<ARMarker>() != null)
         {
             m_hideAllRect = new Rect(Screen.width - UI_BUTTON_SIZE_X - UI_BUTTON_GAP_X,
@@ -280,6 +281,7 @@ public class ARGUIController : MonoBehaviour, ITangoLifecycle, ITangoDepth
         {
             m_hideAllRect = new Rect(0, 0, 0, 0);
         }
+        */
     }
 
     /// <summary>
